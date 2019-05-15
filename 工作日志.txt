@@ -1,0 +1,8 @@
+2019-5-6
+el-dropdown-item element-ui 下拉框 里面的@click事件无效
+解决办法： @click.native  在点击事件后加上这个修饰符 .native 就是在父组件中给子组件绑定一个原生的事件，就将子组件变成了普通的HTML标签，不加'.native'事件是无法触发的。
+
+
+5.13 
+vue 设置端口号
+  再vue-config.js 中 devServer:{port:8888}
