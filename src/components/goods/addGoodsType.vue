@@ -42,7 +42,6 @@
         props:["visible","isUpdate"],
         methods:{
             addGoodsType(){
-
                 if(this.isUpdate){
                     //修改按钮时，调用修改函数，将要修改的数据传入到axios
                     this.$store.dispatch("upGoodsType",{
@@ -74,7 +73,6 @@
 
                     });
                 }else{ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
-
                     console.log(this.isUpdate)
                     this.form.goodsTypeName='';
                     this.form.goodsIsShow = '';

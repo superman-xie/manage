@@ -1,8 +1,10 @@
 import pageInfo from '@/components/common/pageInfo'
 import addGoodsType from '@/components/goods/addGoodsType'
+import addSmallGoodsType from '@/components/goods/addSmallGoodsType'
 const components = {
     pageInfo,
-    addGoodsType
+    addGoodsType,
+    addSmallGoodsType
 }
 export default {
      install(Vue){

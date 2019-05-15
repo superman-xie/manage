@@ -24,9 +24,7 @@ export default {
                         adminName : that.adminForm.adminName,
                         passWord : that.adminForm.passWord
             }).then(data=>{
-                console.log(data)
                 if(data.ok === 1){
-                    console.log(data.token)
                     commit("SET_TOKEN",data.token);
                     //成功弹出框
                     that.$message({

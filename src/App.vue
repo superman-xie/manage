@@ -23,21 +23,23 @@
     </el-header>
     <el-container>
       <el-aside  :style="{width:isCollapse?'auto':'241px'}">
-        <el-menu :collapse-transition="false" default-active="1-1" class="el-menu-vertical-demo" :collapse="isCollapse">
+        <!--router 设置开启路由跳转  element 属性  background-color 设置背景颜色  text-color 设置未选中字体颜色  active-text-color 设置选中字体颜色 select 设置 激活时的回调函数 default-active 设置当前选中的框  collapse 是否缩隐藏-->
+        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#67C23A" @select="selectOpen" :router="true" :collapse-transition="false" :default-active="nowIndex" class="el-menu-vertical-demo" :collapse="isCollapse">
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-s-custom"></i>
               <span slot="title">管理员设置</span>
             </template>
-            <el-menu-item index="1-1" @click="$router.push('/adminLog')">管理员登陆日志</el-menu-item>
+            <!--route 设置 路由路径  element 属性-->
+            <el-menu-item :route="{path:'/adminLog'}" index="1-1">管理员登陆日志</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-s-goods"></i>
               <span slot="title">商品管理</span>
             </template>
-            <el-menu-item index="2-1" @click="$router.push({name:'goodsType'})">商品类别列表</el-menu-item>
-            <el-menu-item index="2-2" @click="$router.push({name:'smallGoodsType'})">商品小列表</el-menu-item>
+            <el-menu-item :route="{path:'/goodsType'}" index="2-1" >商品类别列表</el-menu-item>
+            <el-menu-item :route="{path:'/smallGoodsType'}" index="2-2">商品类别小列表</el-menu-item>
           </el-submenu>
 
 
@@ -54,12 +56,16 @@
     data() {
       return {
         // 是否折叠
-        isCollapse: false
+        isCollapse: false,
+        //将当前选中的index 存到 data中
+        nowIndex : sessionStorage.nowIndex
       }
     },
     methods:{
-      fn(){
-        console.log(121212);
+      //激活了哪个选项框的回调函数  index 为当前选中框的index  indexPath 是 父级 index 和 自己 index
+      selectOpen(index,indexPath){
+        //将当前选中的值存到本地存储中，关闭这个页面会丢失
+        sessionStorage.nowIndex = index;
       }
     }
   }
@@ -79,10 +85,6 @@
     .el-aside{
       height:100% !important;
     }
-  }
-
-  .el-menu-item{
-    color:#67C23A !important;
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 240px;

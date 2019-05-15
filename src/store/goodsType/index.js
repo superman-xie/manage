@@ -6,7 +6,11 @@ export default {
         //获取的商品类型列表
         goodsTypeList : [],
         //查找一个的商品类型信息
-        oneGoodsType : {}
+        oneGoodsType : {},
+        //获取全部的商品类型
+        allGoodsType : [],
+        //获取商品小列表
+        smallGoodsTypeList : []
     },
     mutations : {
         //将获得商品类型列表添加到state
@@ -16,6 +20,13 @@ export default {
         //将获得的一个的商品类型信息添加到state
         SET_ONE_GOODS_TYPE(state,oneGoodsType){
             state.oneGoodsType = oneGoodsType;
+        },
+        //获去全部商品类别
+        SET_ALL_GOODS_TYPE(state,allGoodsType){
+            state.allGoodsType = allGoodsType;
+        },
+        SET_SMALL_GOODS_TYPE_LIST(state,smallGoodsTypeList){
+            state.smallGoodsTypeList = smallGoodsTypeList;
         }
     },
     actions : {
@@ -115,6 +126,85 @@ export default {
                     }
                 }
             })
-        }
+        },
+        //获取全部的大商品类型
+        getAllGoodsType({commit}){
+            axios.get("getAllGoodsType"
+            ).then(data=>{
+                commit("SET_ALL_GOODS_TYPE",data.goodsTypeList)
+            })
+        },
+        //获取小商品列表
+        getSmallGoodsType({commit},params){
+            axios.get("smallGoodsType",{
+                params
+            }).then(data=>{
+                if(data){
+                    console.log(data)
+                    if(data.ok === 1){
+                        //将获得的列表信息复制给state goodsTypeList
+                        commit("SET_SMALL_GOODS_TYPE_LIST",data.smallGoodsTypeList);
+                        //将总页数 和当前页数复制给state中的pageIndex pageSum
+                        commit("SET_PAGE_INFO",{
+                            pageIndex : data.pageIndex,
+                            pageSum : data.pageSum
+                        })
+                    }
+                }
+            })
+        },
+        //删除小商品类型 创日一个ID
+        delSmallGoodsType({dispatch,rootState},id){
+            axios.delete("smallGoodsType",{
+                params : {
+                    id
+                }
+            }).then(data=>{
+                if(data){
+                    if(data.ok === 1){
+                        //重新获取数据 刷新页面
+                        dispatch("getSmallGoodsType",{pageIndex:rootState.pageInfo.pageIndex});
+                        //成功调用外部的提示函数  在 config 传入一个数据 data 可以输出.msg
+                        config.message(data,"success")
+                    }
+                }
+            })
+        },
+        //查找一个小商品 根据id
+        findOneSmallGoodsType({commit},id){
+            axios.get("findOneSmallGoodsType",{
+                params : {
+                    id
+                }
+            }).then(data=>{
+                console.log(data)
+                if(data){
+                    //将得到的一个商品类别信息复制给oneGoodsList
+                    commit("SET_ONE_GOODS_TYPE",data.goodsType);
+                    //调用该订阅  在addGoodsType 中
+                    Vue.prototype.$bus.$emit('findOneBySmall')
+                }
+
+            })
+        },
+        //修改小商品类型信息
+        upSmallGoodsType({dispatch},obj){
+            axios.put("smallGoodsType",obj).then(data=>{
+                console.log(data);
+                if(data){
+                    if(data.ok === 1){
+
+                        // //重新获取数据
+                        // dispatch("getGoodsType");
+                        // //成功调用外部的提示函数  在 config 传入一个数据 data 可以输出.msg
+                        // config.message(data,"success")
+                    }
+                    // else{
+                    //     //失败时调用外部的提示函数  在 config 传入一个数据 data 可以输出.msg
+                    //     config.message(data,"error")
+                    // }
+                }
+            })
+        },
     }
 }

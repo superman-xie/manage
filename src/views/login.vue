@@ -6,14 +6,13 @@
                     <el-input v-model="adminForm.adminName" placeholder="请输入管理员账号"></el-input>
                 </el-form-item>
                 <el-form-item label="密码：" prop="passWord" >
-                    <el-input type="password" v-model="adminForm.passWord" placeholder="请输入密码"></el-input>
+                    <el-input type="password" v-model="adminForm.passWord" placeholder="请输入密码"  @keyup.native.enter="login"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button style="width:100%" type="primary" @click="login">立即登录</el-button>
                 </el-form-item>
             </el-form>
         </div>
-
     </div>
 </template>
 

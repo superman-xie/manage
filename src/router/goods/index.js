@@ -10,7 +10,7 @@ export default [
         }
     },
     {
-        path : "smallGoodsType",
+        path : "/smallGoodsType",
         name : "smallGoodsType",
         component : smallGoodsType,
         meta : {

@@ -6,3 +6,6 @@ el-dropdown-item element-ui 下拉框 里面的@click事件无效
 5.13 
 vue 设置端口号
   再vue-config.js 中 devServer:{port:8888}
+5-13 
+添加了小商品的添加删除功能
+遇到的问题： 编辑小商品的添加的功能  element 图片设置的 fileList : [], 无法彻底清除数组
