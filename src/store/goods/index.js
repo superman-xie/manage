@@ -15,8 +15,6 @@ export default {
             axios.get("getGoodsList",{
                 params
             }).then(data=>{
-
-                console.log(data)
                 if(data){
                     if(data.ok === 1){
                         //将获得的列表信息复制给state goodsTypeList

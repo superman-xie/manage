@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path")
 const token = require("./module/token")
 const db = require("./module/db")
 const {message} = require("./module/config")
@@ -8,6 +9,8 @@ const admin = require("./router/admin")
 const goods = require("./router/goods")
 app.use(bodyParser.json());
 app.use(express.static(__dirname+"/upload"));
+app.use(express.static(path.resolve(__dirname,"../dist")))
+
 app.all("*",function(req,res,next){
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Headers","Authorization");

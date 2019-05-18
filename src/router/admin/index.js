@@ -1,9 +1,9 @@
-import adminLog from '@/components/admin/adminLog'
+import isAdminLog from '@/components/admin/adminLog'
 export default [
     {
-        path: '/adminLog',
-        name: 'adminLog',
-        component: adminLog,
+        path: '/isAdminLog',
+        name: 'isAdminLog',
+        component: isAdminLog,
         meta:{
             isAuthorization : true
         }

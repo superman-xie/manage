@@ -1,12 +1,14 @@
-import pageInfo from '@/components/common/pageInfo'
-import addGoodsType from '@/components/goods/addGoodsType'
-import addSmallGoodsType from '@/components/goods/addSmallGoodsType'
-import addGoods from '@/components/goods/addGoods'
+import pageInfo from '@/components/common/pageInfo';
+import addGoodsType from '@/components/goods/addGoodsType';
+import addSmallGoodsType from '@/components/goods/addSmallGoodsType';
+import addGoods from '@/components/goods/addGoods';
+import addGoodsDetails from '@/components/goods/addGoodsDetails';
 const components = {
     pageInfo,
     addGoodsType,
     addSmallGoodsType,
-    addGoods
+    addGoods,
+    addGoodsDetails
 }
 export default {
      install(Vue){

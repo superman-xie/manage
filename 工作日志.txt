@@ -15,3 +15,11 @@ vue 设置端口号
 
 完成商品添加
   还有编辑删除待优化
+
+
+服务器上线  
+通过nodejs express   app.use(express.static(path.resolve(__dirname,"../dist")))将dist设置成静态属性。
+二级域名 
+在域名解析中使用隐形URL 设置 m.haomua.com  	在设置记录值中使用http://www.haomua.com: 8888
+会直接跳转到这个属于这个端口的页面
+			

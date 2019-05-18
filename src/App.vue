@@ -31,16 +31,17 @@
               <span slot="title">管理员设置</span>
             </template>
             <!--route 设置 路由路径  element 属性-->
-            <el-menu-item :route="{path:'/adminLog'}" index="1-1">管理员登陆日志</el-menu-item>
+            <el-menu-item :route="{path:'/isAdminLog'}" index="1-1">管理员登陆日志</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-s-goods"></i>
               <span slot="title">商品管理</span>
             </template>
-            <el-menu-item :route="{path:'/goodsType'}" index="2-1" >商品类别列表</el-menu-item>
-            <el-menu-item :route="{path:'/smallGoodsType'}" index="2-2">商品类别小列表</el-menu-item>
-            <el-menu-item :route="{path:'/goods'}" index="2-3">商品列表</el-menu-item>
+            <el-menu-item :route="{path:'/isGoodsType'}" index="2-1" >商品类别列表</el-menu-item>
+            <el-menu-item :route="{path:'/isSmallGoodsType'}" index="2-2">商品类别小列表</el-menu-item>
+            <el-menu-item :route="{path:'/isGoods'}" index="2-3">商品列表</el-menu-item>
+            <el-menu-item :route="{path:'/isGoodsDetails'}" index="2-4">商品详情页列表</el-menu-item>
           </el-submenu>
 
 
