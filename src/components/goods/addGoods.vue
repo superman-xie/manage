@@ -1,38 +1,50 @@
 <template>
     <!--模态框-->
-    <el-dialog title="添加商品类别" :visible="visible" @update:visible="v=>$emit('update:visible',v)">
+    <el-dialog title="添加商品" top="2vh" :visible="visible" @update:visible="v=>$emit('update:visible',v)">
         <!--<el-dialog title="添加店铺类别" :visible.sync="visible">-->
-        <el-form :model="smallGoodsTypeForm" ref="smallGoodsTypeForm">
-            <el-form-item label="商品类别名称" label-width="" prop="smallGoodsTypeName">
-                <el-input v-model="smallGoodsTypeForm.smallGoodsTypeName" autocomplete="off"></el-input>
+        <el-form :model="goodsFrom" ref="goodsFrom">
+            <el-form-item label="商品名称" label-width="" prop="goodsName">
+                <el-input v-model="goodsFrom.goodsName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商品总类别：" prop="goodsTypeId">
-                <el-select v-model="smallGoodsTypeForm.goodsTypeId" placeholder="请选择">
+            <el-form-item label="商品详情信息" label-width="" prop="goodsInfo">
+                <el-input v-model="goodsFrom.goodsInfo" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="所属商品小类别：" prop="smallGoodsTypeId">
+                <el-select v-model="goodsFrom.smallGoodsTypeId" placeholder="请选择">
                     <!--key唯一标识   label  下拉框显示的值   value  普通的value值-->
                     <el-option
-                            v-for="item in $store.state.goodsType.allGoodsType"
+                            v-for="item in $store.state.goodsType.allSmallGoodsTypeList"
                             :key="item._id"
-                            :label="item.goodsTypeName"
+                            :label="item.smallGoodsTypeName"
                             :value="item._id">
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="商品类别排序" label-width="" prop="orderBy">
-                <el-input v-model="smallGoodsTypeForm.orderBy" autocomplete="off"></el-input>
+            <el-form-item label="商品排序" label-width="" prop="orderBy">
+                <el-input v-model="goodsFrom.orderBy" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="店商品类别是否现在显示：" label-width="" prop="smallGoodsIsShow">
-                <el-radio-group v-model="smallGoodsTypeForm.smallGoodsIsShow">
+            <el-form-item label="商品原价" label-width="" prop="originalPrice">
+                <el-input v-model="goodsFrom.originalPrice" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品现价" label-width="" prop="currentPrice">
+                <el-input v-model="goodsFrom.currentPrice" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品点击量" label-width="" prop="clickSum">
+                <el-input v-model="goodsFrom.clickSum" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品是否现在显示：" label-width="" prop="isShow">
+                <el-radio-group v-model="goodsFrom.isShow">
                     <el-radio :label="1" name="isShow">是</el-radio>
                     <el-radio :label="2" name="isShow">否</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item>
+            <el-form-item label="商品显示图片：">
                 <el-upload
-                        :data="smallGoodsTypeForm"
+                        :data="goodsFrom"
                         class="upload-demo"
-                        :action="actionURL"
+                        action="/chu/addGoods/"
                         :headers="headers"
-                        name="smallGoodsTypePic"
+                        name="goodsSmallPic"
                         :auto-upload="false"
                         :limit="1"
                         :on-success="upSuccess"
@@ -55,17 +67,18 @@
 <script>
     import Vue from "vue";
     export default {
-        name: "addSmallGoodsType",
+        name: "addGoods",
         data(){
             return {
                 //要传入数据库的数
-                smallGoodsTypeForm:{
-                    smallGoodsIsShow: '',
-                    smallGoodsTypeName : '',
-                    smallGoodsTypePic : '',
-                    orderBy : '',
-                    goodsTypeId : '',
-                    smallGoodsTypeId : ''
+                goodsFrom:{
+                    goodsName: '',
+                    goodsInfo:'',
+                    originalPrice : null,
+                    currentPrice :null,
+                    orderBy : null,
+                    clickSum : null,
+                    isShow : 1
                 },
                 //点击不同按钮是切换URL
                 actionURL : '',
@@ -95,7 +108,7 @@
                     //添加成功删除图片列表中的数据
                     this.fileList = [];
                     //清除表单中的值，表单的prop必写才能有效果
-                    this.$refs.smallGoodsTypeForm.resetFields();
+                    this.$refs.goodsFrom.resetFields();
                     //清除图片上传
                     this.$refs.upload.clearFiles();
                     //关闭窗口
@@ -103,7 +116,7 @@
                     //提示成功
                     this.$message.success(res.msg);
                     //添加成功，重新加载数据
-                    this.$store.dispatch("getSmallGoodsType",{pageIndex:1});
+                    this.$store.dispatch("getGoodsList",{pageIndex:1})
                     //返回 -4 是token 过期
                 }else if(res.ok === -4){
                     Vue.prototype.$alert("你的登录已超时","系统消息",{
@@ -123,10 +136,8 @@
         watch : {
             //监听传入的isUpdate
             isUpdate(newValue,oldValue){
-                console.log(newValue,oldValue)
                 //判断传入的新数据是否为 true
                 if(newValue){
-                    console.log(this.fileList)
                     // 如果传入的是true 证明是修改按钮 将获得到的值传入到input中
                     //点击编辑时将URL地址转换编辑的地址
                     this.actionURL = "/chu/upSmallGoodsType/";
@@ -136,30 +147,28 @@
                         //设置加载中
                         this.$store.state.fullscreenLoading = true;
                         //将ID赋值给form 中
-                        this.smallGoodsTypeForm.smallGoodsTypeId = goodsInfo._id;
-                            //赋值名字
-                        this.smallGoodsTypeForm.smallGoodsTypeName= goodsInfo.smallGoodsTypeName;
+                        this.goodsFrom.smallGoodsTypeId = goodsInfo._id;
+                        //赋值名字
+                        this.goodsFrom.smallGoodsTypeName= goodsInfo.smallGoodsTypeName;
                         //赋值是否显示
-                        this.smallGoodsTypeForm.smallGoodsIsShow = goodsInfo.smallGoodsIsShow;
+                        this.goodsFrom.smallGoodsIsShow = goodsInfo.smallGoodsIsShow;
                         //赋值ID
-                        this.smallGoodsTypeForm.goodsTypeId = goodsInfo.goodsTypeId;
+                        this.goodsFrom.goodsTypeId = goodsInfo.goodsTypeId;
                         //赋值图片名称
-                        this.smallGoodsTypeForm.smallGoodsTypePic = goodsInfo.smallGoodsTypePic;
+                        this.goodsFrom.smallGoodsTypePic = goodsInfo.smallGoodsTypePic;
                         //赋值序号
-                        this.smallGoodsTypeForm.orderBy = goodsInfo.orderBy;
+                        this.goodsFrom.orderBy = goodsInfo.orderBy;
                         //设置添加的图片
                         this.fileList.push({name : goodsInfo.smallGoodsTypePic,url : this.$store.state.config.baseUrl + goodsInfo.smallGoodsTypePic});
                         this.$store.state.fullscreenLoading = false;
                     });
-                }
-                if(!newValue){ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
-
+                }else{ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
                     //点击添加时将URL地址转换添加的地址
                     this.actionURL = "/chu/smallGoodsType/";
                     //清除表单中的值，表单的prop必写才能有效果
-                    // this.$refs.smallGoodsTypeForm.resetFields();
+                    this.$refs.goodsFrom.resetFields();
                     //清除图片上传
-                    // this.$refs.upload.clearFiles();
+                    this.$refs.upload.clearFiles();
                     this.fileList = [];
                 }
             },
@@ -167,11 +176,8 @@
             visible(newValue,oldValue){
                 //如果值为false 删除添加的图片
                 if(!newValue){
-                    this.$refs.upload.clearFiles();
                     this.fileList = [];
                 }
-
-
             }
         },
         mounted(){
@@ -179,14 +185,13 @@
             Vue.prototype.$bus.$on("outLogin",()=>{
                 this.$store.commit("OUT_LOGIN");
             })
-            this.$store.dispatch("getAllGoodsType");
+            this.$store.dispatch("getAllSmallGoodsTypeList");
         }
     }
 </script>
-
 <style scoped>
     .el-radio__inner{
-    background:red !important;
-    border-color:red !important ;
-}
+        background:red !important;
+        border-color:red !important ;
+    }
 </style>

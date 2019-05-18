@@ -11,7 +11,7 @@ const filters = {
     currency(v,n=2){
         return "$"+v.toFixed(n);
     },
-    issShow(v) {
+    isShow(v) {
         return v === 1 ? "是" : "否"
     }
 }

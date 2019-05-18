@@ -43,7 +43,7 @@
             <el-table-column
                     label="商品类别是否显示">
                 <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.goodsIsShow | issShow }}</span>
+                    <span style="margin-left: 10px">{{ scope.row.goodsIsShow | isShow }}</span>
                 </template>
             </el-table-column>
             <el-table-column

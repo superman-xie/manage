@@ -2,6 +2,7 @@ import Vue from "vue"
 import Vuex from "vuex"
 import admin from "./admin"
 import goodsType from "./goodsType"
+import goods from "./goods"
 import config from "./config"
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     modules : {
         admin,
         goodsType,
-        config
+        config,
+        goods
     }
 })

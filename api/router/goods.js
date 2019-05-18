@@ -286,7 +286,6 @@ module.exports.findOneSmallGoodsType = function(req,res){
 //修改小商品数据
 module.exports.upSmallGoodsType = function(req,res){
     //判断token 是否过期
-    console.log(req.file);
     var status = token.decode(req.headers.authorization);
     if(status.ok === 1) {
         upPic(req,"smallGoodsTypePic", function (obj) {
@@ -318,33 +317,111 @@ module.exports.upSmallGoodsType = function(req,res){
                 })
             }
         });
-        //更新数据的话要加 $set
-        // var $set = {
-        //     smallGoodsTypeName: req.body.smallGoodsTypeName,
-        //     smallGoodsTypePic: req.body.newPicName,
-        //     orderBy : req.body.orderBy / 1,
-        //     smallGoodsIsShow : req.body.smallGoodsIsShow / 1
-        // }
-        // db.updateOneById("smallGoodsTypeList", req.body.id,
-        //     {
-        //         $set
-        //     }, function (err, results) {
-        //         if (err) {
-        //             res.json({
-        //                 ok: -1,
-        //                 msg: message.UPDATE_ERR
-        //             })
-        //         } else {
-        //             res.json({
-        //                 ok: 1,
-        //                 msg: message.UPDATE
-        //             })
-        //         }
-        //     })
     }else{
         res.json({
             ok:-4,
             msg : message.TOKEN_ERR
         })
     }
+}
+//获取全部商品小列表
+module.exports.getAllSmallGoodsTypeList = function(req,res){
+    db.find("smallGoodsTypeList",{},function(err,smallGoodsTypeList){
+        if(err){
+            res.json({
+                ok: -1,
+                msg: message.DELETE_ERR
+            })
+        }else{
+            res.json({
+                ok: 1,
+                msg: message.GET,
+                smallGoodsTypeList
+            })
+        }
+    })
+}
+//添加商品
+module.exports.addGoods = function(req,res){
+    //判断是否过期
+    var status = token.decode(req.headers.authorization);
+    if(status.ok === 1){
+        upPic(req,"goodsSmallPic", function (obj) {
+            if (obj.ok === 2) {
+                db.findOneById("smallGoodsTypeList", obj.params.smallGoodsTypeId, function (err,smallGoodsType) {
+                    db.insertOne("goodsList", {
+                        smallGoodsTypeId: smallGoodsType._id,
+                        smallGoodsTypeName: smallGoodsType.smallGoodsTypeName,
+                        addTime: Date.now(),
+                        orderBy : obj.params.orderBy / 1,
+                        goodsName:  obj.params.goodsName,
+                        goodsInfo : obj.params.goodsInfo,
+                        goodsSmallPic: obj.params.newPicName,
+                        originalPrice: obj.params.originalPrice / 1,
+                        currentPrice:  obj.params.currentPrice / 1,
+                        clickSum:       obj.params.clickSum / 1,
+                        isShow : obj.params.isShow / 1
+                    }, function (err, results) {
+                        res.json({
+                            ok: 1,
+                            msg: obj.msg
+                        })
+                    })
+                })
+            } else {
+                res.json({
+                    ok: -1,
+                    msg: obj.msg
+                })
+            }
+        })
+    }else{
+        res.json({
+            ok:-4,
+            msg : message.TOKEN_ERR
+        })
+    }
+}
+//获取商品
+module.exports.getGoodsList = function(req,res){
+    //判断token 是否过期
+    var status = token.decode(req.headers.authorization);
+    if(status.ok === 1){
+        //搜索的内容
+        var goodsSearch = req.query.goodsSearch ? req.query.goodsSearch : '';
+        var whereObj = {};
+        //判断搜索内容是否输入，有的话设置 按搜索内容查找
+        if(goodsSearch.length > 0){
+            whereObj.goodsName = new RegExp(goodsSearch);
+        }
+        getPageList(req,res,"goodsList",{
+            sortObj : {
+                addTime : -1,
+                orderBy : 1
+            },
+            whereObj
+        })
+    }else{
+        res.json({
+            ok:-4,
+            msg : message.TOKEN_ERR
+        })
+    }
+}
+//获取全部商品
+module.exports.getAllGoodsList = function(req,res){
+    db.find("goodsList",{},function(err,goodsList){
+        if(err){
+            res.json({
+                ok: -1,
+                msg: message.DELETE_ERR
+            })
+        }else{
+            res.json({
+                ok: 1,
+                msg: message.GET,
+                goodsList
+            })
+        }
+    })
 }

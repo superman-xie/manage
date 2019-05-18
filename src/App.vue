@@ -40,6 +40,7 @@
             </template>
             <el-menu-item :route="{path:'/goodsType'}" index="2-1" >商品类别列表</el-menu-item>
             <el-menu-item :route="{path:'/smallGoodsType'}" index="2-2">商品类别小列表</el-menu-item>
+            <el-menu-item :route="{path:'/goods'}" index="2-3">商品列表</el-menu-item>
           </el-submenu>
 
 

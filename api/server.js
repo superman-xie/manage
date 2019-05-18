@@ -41,6 +41,14 @@ app.delete("/smallGoodsType",goods.delSmallGoodsType)
 app.get("/findOneSmallGoodsType",goods.findOneSmallGoodsType)
 //修改小商品信息
 app.post("/upSmallGoodsType",goods.upSmallGoodsType)
+//获取全部小商品类型
+app.get("/getAllSmallGoodsTypeList",goods.getAllSmallGoodsTypeList)
+//添加商品信息
+app.post("/addGoods",goods.addGoods)
+//获取商品
+app.get("/getGoodsList",goods.getGoodsList)
+//获取全部商品信息
+app.get("/getAllGoodsList",goods.getAllGoodsList)
 app.listen(80,function(){
     console.log("success");
 })

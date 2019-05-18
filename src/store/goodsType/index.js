@@ -10,11 +10,13 @@ export default {
         //获取全部的商品类型
         allGoodsType : [],
         //获取商品小列表
-        smallGoodsTypeList : []
+        smallGoodsTypeList : [],
+        //全部商品小列表
+        allSmallGoodsTypeList : []
     },
     mutations : {
         //将获得商品类型列表添加到state
-        SET_GOODS_LIST(state,goodsTypeList){
+        SET_GOODS_TYPE_LIST(state,goodsTypeList){
             state.goodsTypeList = goodsTypeList;
         },
         //将获得的一个的商品类型信息添加到state
@@ -27,6 +29,9 @@ export default {
         },
         SET_SMALL_GOODS_TYPE_LIST(state,smallGoodsTypeList){
             state.smallGoodsTypeList = smallGoodsTypeList;
+        },
+        SET_ALL_SMALL_GOODS_TYPE(state,allSmallGoodsTypeList){
+            state.allSmallGoodsTypeList = allSmallGoodsTypeList;
         }
     },
     actions : {
@@ -66,7 +71,7 @@ export default {
                 if(data){
                     if(data.ok === 1){
                         //将获得的列表信息复制给state goodsTypeList
-                        commit("SET_GOODS_LIST",data.goodsTypeList);
+                        commit("SET_GOODS_TYPE_LIST",data.goodsTypeList);
                         //将总页数 和当前页数复制给state中的pageIndex pageSum
                         commit("SET_PAGE_INFO",{
                             pageIndex : data.pageIndex,
@@ -140,7 +145,6 @@ export default {
                 params
             }).then(data=>{
                 if(data){
-                    console.log(data)
                     if(data.ok === 1){
                         //将获得的列表信息复制给state goodsTypeList
                         commit("SET_SMALL_GOODS_TYPE_LIST",data.smallGoodsTypeList);
@@ -204,6 +208,13 @@ export default {
                     //     config.message(data,"error")
                     // }
                 }
+            })
+        },
+        //获取全部小商品类型
+        getAllSmallGoodsTypeList({commit}){
+            axios.get("getAllSmallGoodsTypeList"
+            ).then(data=>{
+                commit("SET_ALL_SMALL_GOODS_TYPE",data.smallGoodsTypeList)
             })
         },
     }

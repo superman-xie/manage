@@ -58,28 +58,28 @@
             }
         },
         //监听
-        watch : {
-            //监听传入的isUpdate
-            isUpdate(newValue,oldValue){
-                //判断传入的新数据是否为 true
-                if(newValue){
-                    // 如果传入的是true 证明是修改按钮 将获得到的值传入到input 中
-                    Vue.prototype.$bus.$on("findOne",()=>{
-                        this.$store.state.fullscreenLoading = true;
-                        this.form.goodsTypeName=this.$store.state.goodsType.oneGoodsType.goodsTypeName;
-                        this.form.goodsIsShow = this.$store.state.goodsType.oneGoodsType.goodsIsShow;
-                        this.form.orderBy = this.$store.state.goodsType.oneGoodsType.orderBy;
-                        this.$store.state.fullscreenLoading = false;
-
-                    });
-                }else{ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
-                    console.log(this.isUpdate)
-                    this.form.goodsTypeName='';
-                    this.form.goodsIsShow = '';
-                    this.form.orderBy = '';
-                }
-            }
-        },
+        // watch : {
+        //     //监听传入的isUpdate
+        //     isUpdate(newValue,oldValue){
+        //         //判断传入的新数据是否为 true
+        //         if(newValue){
+        //             // 如果传入的是true 证明是修改按钮 将获得到的值传入到input 中
+        //             Vue.prototype.$bus.$on("findOne",()=>{
+        //                 this.$store.state.fullscreenLoading = true;
+        //                 this.form.goodsTypeName=this.$store.state.goodsType.oneGoodsType.goodsTypeName;
+        //                 this.form.goodsIsShow = this.$store.state.goodsType.oneGoodsType.goodsIsShow;
+        //                 this.form.orderBy = this.$store.state.goodsType.oneGoodsType.orderBy;
+        //                 this.$store.state.fullscreenLoading = false;
+        //
+        //             });
+        //         }else{ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
+        //             console.log(this.isUpdate)
+        //             this.form.goodsTypeName='';
+        //             this.form.goodsIsShow = '';
+        //             this.form.orderBy = '';
+        //         }
+        //     }
+        // },
         mounted(){
 
         }
