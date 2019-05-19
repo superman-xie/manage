@@ -65,18 +65,6 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    label="商品是否显示">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.isShow | isShow}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column
-                    label="商品点击量">
-                <template slot-scope="scope">
-                    <span>{{ scope.row.clickSum }}次</span>
-                </template>
-            </el-table-column>
-            <el-table-column
                     label="店铺图片"
                     width="150">
                 <template slot-scope="scope">
@@ -88,6 +76,36 @@
                 <template slot-scope="scope">
                     <i class="el-icon-s-time"></i>
                     <span>{{ scope.row.addTime | date}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="商品详情信息" width="140">
+                <template slot-scope="scope">
+                    <el-popover
+                            placement="right"
+                            width="520"
+                            border
+                            trigger="hover">
+                        <el-row>
+                            <el-col :span="3"><div class="bg-purple">商品产地</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">商品规格</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">储存条件</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">保质期</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">是否显示</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">是否优选</div></el-col>
+                            <el-col :span="3"><div class="bg-purple">点击量</div></el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.goodsPlace}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.goodsSpecs}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.storageRequire}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.storageTime}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.isShow | isShow}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.isPreference | isShow}}</div></el-col>
+                            <el-col :span="3"><div class="grid-content bg-purple">{{ scope.row.clickSum }}</div></el-col>
+
+                        </el-row>
+                        <el-button slot="reference" @click="popover = !popover">移入查看</el-button>
+                    </el-popover>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="320px">
@@ -111,11 +129,11 @@
                             size="mini"
                             type="primary"
                             @click="addGoodsDetails = true"
-                    >添加详情页信息</el-button>
-
+                    >添加轮播图图片</el-button>
                 </template>
             </el-table-column>
         </el-table>
+
         <!--模态框  传入一个开关窗口的visible   传入一个判断按钮的数据 isUpdate-->
         <addGoods :visible.sync="visible" :isUpdate.sync="isUpdate"></addGoods>
         <addGoodsDetails :addGoodsDetails.sync="addGoodsDetails" :isUpdate.sync="isUpdate"></addGoodsDetails>
@@ -132,6 +150,7 @@
                 //搜索的内容
                 goodsSearch : "",
                 visible : false,
+                popover : false,
                 isUpdate : false,
                 addGoodsDetails : false
             }
@@ -140,7 +159,7 @@
             //初始化页面页数
             this.$store.commit("SET_INIT");
             // // 获取商品类型小列表
-            this.$store.dispatch("getGoodsList",{pageIndex:1})
+            this.$store.dispatch("getGoodsList",{pageIndex:1});
         }
     }
 </script>
@@ -150,5 +169,11 @@
     .pic{
         max-height: 100px;
         max-width : 140px;
+    }
+    .bg-purple {
+        background: #d3dce6;
+        text-align: center;
+        padding:5px 0;
+        border:1px solid #fff;
     }
 </style>

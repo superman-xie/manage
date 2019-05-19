@@ -2,6 +2,7 @@ import isGoodsType from '@/components/goods/goodsType';
 import isSmallGoodsType from '@/components/goods/smallGoodsType';
 import isGoods from '@/components/goods/goods'
 import isGoodsDetails from '@/components/goods/goodsDetails'
+import isSlideshow from '@/components/goods/isSlideshow'
 export default [
     {
         path : "/isGoodsType",
@@ -28,9 +29,17 @@ export default [
         }
     },
     {
-        path : "/isGoodsDetails",
-        name : "isGoodsDetails",
-        component : isGoodsDetails,
+        path: "/isGoodsDetails",
+        name: "isGoodsDetails",
+        component: isGoodsDetails,
+        meta: {
+            isAuthorization: true
+        }
+    },
+    {
+        path : "/isSlideshow",
+        name : "isSlideshow",
+        component : isSlideshow,
         meta : {
             isAuthorization : true
         }

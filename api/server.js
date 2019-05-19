@@ -52,6 +52,14 @@ app.post("/addGoods",goods.addGoods)
 app.get("/getGoodsList",goods.getGoodsList)
 //获取全部商品信息
 app.get("/getAllGoodsList",goods.getAllGoodsList)
+//添加详情页信息
+app.post("/addGoodsDetailsPic",goods.addGoodsDetailsPic);
+//获取详情图片
+app.get("/goodsDetailsPicList",goods.goodsDetailsPicList);
+//添加轮播图图片
+app.post("/addSlideshowPic",goods.addSlideshowPic);
+//获取轮播图图片
+app.get("/slideShowPicList",goods.slideShowPicList)
 app.listen(80,function(){
     console.log("success");
 })

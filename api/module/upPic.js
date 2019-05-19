@@ -8,6 +8,7 @@ module.exports.upPic = function(req,picName,cb){
     form.uploadDir = path.resolve(__dirname,"../upload");//上传文件的目录
     form.keepExtensions = true; //是否保留拓展名
     form.parse(req,function(err,params,file){
+        // console.log(file);
         var picInfo = file[picName];
         //判断是否传入了图片   
         if(picInfo.size > 0){

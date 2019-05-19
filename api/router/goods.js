@@ -350,17 +350,23 @@ module.exports.addGoods = function(req,res){
             if (obj.ok === 2) {
                 db.findOneById("smallGoodsTypeList", obj.params.smallGoodsTypeId, function (err,smallGoodsType) {
                     db.insertOne("goodsList", {
-                        smallGoodsTypeId: smallGoodsType._id,
-                        smallGoodsTypeName: smallGoodsType.smallGoodsTypeName,
-                        addTime: Date.now(),
-                        orderBy : obj.params.orderBy / 1,
-                        goodsName:  obj.params.goodsName,
-                        goodsInfo : obj.params.goodsInfo,
-                        goodsSmallPic: obj.params.newPicName,
-                        originalPrice: obj.params.originalPrice / 1,
-                        currentPrice:  obj.params.currentPrice / 1,
-                        clickSum:       obj.params.clickSum / 1,
-                        isShow : obj.params.isShow / 1
+                        smallGoodsTypeId: smallGoodsType._id,                    //所属商品类别ID
+                        smallGoodsTypeName: smallGoodsType.smallGoodsTypeName,  //所属商品类别名称
+                        addTime: Date.now(),                         //添加时间
+                        orderBy : obj.params.orderBy / 1,             //排序
+                        goodsName:  obj.params.goodsName,           //商品名称
+                        goodsInfo : obj.params.goodsInfo,           //商品描述
+                        goodsSmallPic: obj.params.newPicName,        //小图片
+                        originalPrice: obj.params.originalPrice / 1,  //原价
+                        currentPrice:  obj.params.currentPrice / 1,  //现价
+                        clickSum:       obj.params.clickSum / 1,  //点击量
+                        goodsPlace: obj.params.goodsPlace,    //商品产地
+                        goodsSpecs: obj.params.goodsSpecs,     //商品规格
+                        storageTime: obj.params.storageTime,    //保质期
+                        storageRequire: obj.params.storageRequire,   //商品储存条件
+                        isPreference: obj.params.isPreference / 1,    //是否优选
+                        goodsNum: obj.params.goodsNum / 1,        //商品库存
+                        isShow : obj.params.isShow / 1       //是否显示
                     }, function (err, results) {
                         res.json({
                             ok: 1,
@@ -421,6 +427,125 @@ module.exports.getAllGoodsList = function(req,res){
                 ok: 1,
                 msg: message.GET,
                 goodsList
+            })
+        }
+    })
+}
+//添加商品图片
+module.exports.addGoodsDetailsPic = function(req,res){
+    var status = token.decode(req.headers.authorization);
+    if(status.ok === 1){
+    upPic(req,"goodsDetailsPic",function(obj){
+       if(obj.ok === 2){
+           console.log(obj.params)
+           db.findOneById("goodsList", obj.params.goodsId, function (err,goods) {
+                   db.insertOne("goodsDetailsPicList", {
+                       goodsId : goods._id,    //商品id
+                       goodsName : goods.goodsName,   //商品名称
+                       goodsDetailsPicInfo : obj.params.goodsDetailsPicInfo, //图片描述
+                       isShow : obj.params.isShow,       //是否显示
+                       orderBy : obj.params.orderBy,      //排序
+                       goodsDetailsPic : obj.params.newPicName //图片
+                   },function(err){
+                        if(err){
+                            res.json({
+                                ok:-1,
+                                msg : message.URL_ERROR
+                            })
+                        }else{
+                            res.json({
+                                ok:1,
+                                msg : message.ADD_SUCCESS
+                            })
+                        }
+                   })
+               })
+       }else {
+           res.json({
+               ok: -1,
+               msg: obj.msg
+           })
+       }
+    })
+    }else{
+        res.json({
+            ok:-4,
+            msg : message.TOKEN_ERR
+        })
+    }
+}
+//获取商品图片
+module.exports.goodsDetailsPicList = function(req,res){
+    db.find("goodsDetailsPicList",{},function(err,goodsDetailsPicList){
+        if(err){
+            res.json({
+                ok:-1,
+                msg : message.URL_ERROR
+            })
+        }else{
+            res.json({
+                ok:1,
+                msg : message.GET,
+                goodsDetailsPicList
+            })
+        }
+    })
+}
+//轮播图
+module.exports.addSlideshowPic = function(req,res){
+    var status = token.decode(req.headers.authorization);
+    if(status.ok === 1){
+        upPic(req,"slideShowPic",function(obj){
+            if(obj.ok === 2){
+                db.findOneById("goodsList", obj.params.goodsId, function (err,goods) {
+                    db.insertOne("slideShowPicList", {
+                        goodsId : goods._id,    //商品id
+                        goodsName : goods.goodsName,   //商品名称
+                        isShow : obj.params.isShow,       //是否显示
+                        orderBy : obj.params.orderBy,      //排序
+                        slideShowPic : obj.params.newPicName, //图片
+                        slideShowInfo : obj.params.slideShowInfo,   //图片描述
+                    },function(err){
+                        if(err){
+                            res.json({
+                                ok:-1,
+                                msg : message.URL_ERROR
+                            })
+                        }else{
+                            res.json({
+                                ok:1,
+                                msg : message.ADD_SUCCESS
+                            })
+                        }
+                    })
+                })
+            }else {
+                res.json({
+                    ok: -1,
+                    msg: obj.msg
+                })
+            }
+        })
+    }else{
+        res.json({
+            ok:-4,
+            msg : message.TOKEN_ERR
+        })
+    }
+}
+//获取轮播图
+module.exports.slideShowPicList = function(req,res){
+    db.find("slideShowPicList",{},function(err,slideShowPicList){
+        if(err){
+            res.json({
+                ok:-1,
+                msg : message.URL_ERROR
+            })
+        }else{
+            res.json({
+                ok:1,
+                msg : message.GET,
+                slideShowPicList
             })
         }
     })

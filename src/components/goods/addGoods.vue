@@ -3,11 +3,18 @@
     <el-dialog title="添加商品" top="4vh" :visible="visible" @update:visible="v=>$emit('update:visible',v)">
         <!--<el-dialog title="添加店铺类别" :visible.sync="visible">-->
         <el-form :model="goodsFrom" ref="goodsFrom">
-            <el-form-item label="商品名称" label-width="" prop="goodsName">
-                <el-input v-model="goodsFrom.goodsName" autocomplete="off"></el-input>
+            <el-form-item label="商品名称：" label-width="" prop="goodsName">
+                <el-input :autofocus="true" v-model="goodsFrom.goodsName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商品详情信息" label-width="" prop="goodsInfo">
-                <el-input v-model="goodsFrom.goodsInfo" autocomplete="off"></el-input>
+            <el-form-item label="商品详情信息：" label-width="" prop="goodsInfo">
+                <el-input
+                        type="textarea"
+                        placeholder="请输入内容"
+                        v-model="goodsFrom.goodsInfo"
+                        maxlength="30"
+                        show-word-limit
+                        resize="none"
+                />
             </el-form-item>
             <el-form-item label="所属商品小类别：" prop="smallGoodsTypeId">
                 <el-select v-model="goodsFrom.smallGoodsTypeId" placeholder="请选择">
@@ -20,10 +27,13 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="商品排序" label-width="" prop="orderBy">
-                <el-input v-model="goodsFrom.orderBy" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="价格：" label-width="" prop="price">
+            <el-form-item label="商品排序：" prop="price">
+                <el-col :span="4">
+                    <el-input v-model="goodsFrom.orderBy" autocomplete="off" placeholder="请输入数字"></el-input>
+                </el-col>
+                <el-col :span="2" :offset="1">
+                    商品价格：
+                </el-col>
                 <el-col :span="4">
                     <el-input v-model="goodsFrom.originalPrice" autocomplete="off" placeholder="原价"></el-input>
                 </el-col>
@@ -39,18 +49,54 @@
                 <el-col :span="4">
                     <el-input v-model="goodsFrom.clickSum" autocomplete="off" placeholder="商品点击量"></el-input>
                 </el-col>
-
             </el-form-item>
-
+            <el-form-item label="商品信息：" label-width="" prop="info">
+                <el-col :span="3">
+                    <el-input v-model="goodsFrom.goodsPlace" autocomplete="off" placeholder="商品产地"></el-input>
+                </el-col>
+                <el-col :span="0.4" style="margin-left: 20px">
+                    &nbsp
+                </el-col>
+                <el-col :span="3">
+                    <el-input v-model="goodsFrom.goodsSpecs" autocomplete="off" placeholder="商品规格"></el-input>
+                </el-col>
+                <el-col :span="0.4" style="margin-left: 20px">
+                    &nbsp
+                </el-col>
+                <el-col :span="3">
+                    <el-input v-model="goodsFrom.storageTime" autocomplete="off" placeholder="商品保质期"></el-input>
+                </el-col>
+                <el-col :span="0.4" style="margin-left: 20px">
+                    &nbsp
+                </el-col>
+                <el-col :span="3">
+                    <el-input v-model="goodsFrom.storageRequire" autocomplete="off" placeholder="商品储存条件"></el-input>
+                </el-col>
+                <el-col :span="0.4" style="margin-left: 20px">
+                    &nbsp
+                </el-col>
+                <el-col :span="3">
+                    <el-input v-model="goodsFrom.goodsNum" autocomplete="off" placeholder="商品库存"></el-input>
+                </el-col>
+            </el-form-item>
 
 
             <el-form-item label="商品是否现在显示：" label-width="" prop="isShow">
-                <el-radio-group v-model="goodsFrom.isShow">
-                    <el-radio :label="1" name="isShow">是</el-radio>
-                    <el-radio :label="2" name="isShow">否</el-radio>
-                </el-radio-group>
+                <el-col :span="4">
+                    <el-radio-group v-model="goodsFrom.isShow">
+                        <el-radio :label="1" name="isShow">是</el-radio>
+                        <el-radio :label="2" name="isShow">否</el-radio>
+                    </el-radio-group>
+                </el-col>
+                <el-col :span="6">
+                 商品是否优选
+                    <el-radio-group v-model="goodsFrom.isPreference"  style="margin-left: 20px;">
+                        <el-radio :label="1" name="isPreference">是</el-radio>
+                        <el-radio :label="2" name="isPreference">否</el-radio>
+                    </el-radio-group>
+                </el-col>
             </el-form-item>
-            <el-form-item label="商品显示图片：">
+            <el-form-item label="商品显示小图片：">
                 <el-upload
                         :data="goodsFrom"
                         class="upload-demo"
@@ -90,7 +136,13 @@
                     currentPrice :null,
                     orderBy : null,
                     clickSum : null,
-                    isShow : 1
+                    isShow : 1,
+                    goodsPlace: '',    //商品产地
+                    goodsSpecs: '',     //商品规格
+                    storageTime: '',    //保质期
+                    storageRequire: '',   //商品储存条件
+                    isPreference: 1,    //是否优选
+                    goodsNum: ''        //商品库存
                 },
                 //点击不同按钮是切换URL
                 actionURL : '',

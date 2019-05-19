@@ -41,7 +41,8 @@
             <el-menu-item :route="{path:'/isGoodsType'}" index="2-1" >商品类别列表</el-menu-item>
             <el-menu-item :route="{path:'/isSmallGoodsType'}" index="2-2">商品类别小列表</el-menu-item>
             <el-menu-item :route="{path:'/isGoods'}" index="2-3">商品列表</el-menu-item>
-            <el-menu-item :route="{path:'/isGoodsDetails'}" index="2-4">商品详情页列表</el-menu-item>
+            <el-menu-item :route="{path:'/isGoodsDetails'}" index="2-4">商品详情图片添加</el-menu-item>
+            <el-menu-item :route="{path:'/isSlideshow'}" index="2-5">商品轮播图片添加</el-menu-item>
           </el-submenu>
 
 
