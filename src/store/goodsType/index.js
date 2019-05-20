@@ -216,6 +216,6 @@ export default {
             ).then(data=>{
                 commit("SET_ALL_SMALL_GOODS_TYPE",data.smallGoodsTypeList)
             })
-        },
+        }
     }
 }

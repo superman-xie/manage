@@ -129,7 +129,7 @@
                     console.log(this.fileList)
                     // 如果传入的是true 证明是修改按钮 将获得到的值传入到input中
                     //点击编辑时将URL地址转换编辑的地址
-                    this.actionURL = "/chus/upSmallGoodsType/";
+                    this.actionURL = "/chu/upSmallGoodsType/";
                     Vue.prototype.$bus.$on("findOneBySmall",()=>{
                         //简写代码
                         var goodsInfo = this.$store.state.goodsType.oneGoodsType;
@@ -155,7 +155,7 @@
                 if(!newValue){ // 如果传入的是false 证明是添加按钮 将表单中的数据清空
 
                     //点击添加时将URL地址转换添加的地址
-                    this.actionURL = "/smallGoodsType/";
+                    this.actionURL = "/chu/smallGoodsType/";
                     //清除表单中的值，表单的prop必写才能有效果
                     // this.$refs.smallGoodsTypeForm.resetFields();
                     //清除图片上传

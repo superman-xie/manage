@@ -46,6 +46,7 @@ app.get("/findOneSmallGoodsType",goods.findOneSmallGoodsType)
 app.post("/upSmallGoodsType",goods.upSmallGoodsType)
 //获取全部小商品类型
 app.get("/getAllSmallGoodsTypeList",goods.getAllSmallGoodsTypeList)
+
 //添加商品信息
 app.post("/addGoods",goods.addGoods)
 //获取商品
@@ -60,6 +61,19 @@ app.get("/goodsDetailsPicList",goods.goodsDetailsPicList);
 app.post("/addSlideshowPic",goods.addSlideshowPic);
 //获取轮播图图片
 app.get("/slideShowPicList",goods.slideShowPicList)
+
+
+
+//大商品类型接口
+app.get("/getGoodsTypeList",goods.getGoodsTypeList);
+//小商品类型接口
+app.get("/getSmallGoodsTypeList",goods.getSmallGoodsTypeList);
+//商品接口
+app.get("/getGoodsLists",goods.getGoodsLists);
+//轮播图
+app.get("/getGoodsDetailsPicList",goods.getGoodsDetailsPicList);
+//详情图
+app.get("/getSlideShowPicList",goods.getSlideShowPicList);
 app.listen(80,function(){
     console.log("success");
 })

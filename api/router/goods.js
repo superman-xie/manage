@@ -341,6 +341,7 @@ module.exports.getAllSmallGoodsTypeList = function(req,res){
         }
     })
 }
+
 //添加商品
 module.exports.addGoods = function(req,res){
     //判断是否过期
@@ -437,7 +438,6 @@ module.exports.addGoodsDetailsPic = function(req,res){
     if(status.ok === 1){
     upPic(req,"goodsDetailsPic",function(obj){
        if(obj.ok === 2){
-           console.log(obj.params)
            db.findOneById("goodsList", obj.params.goodsId, function (err,goods) {
                    db.insertOne("goodsDetailsPicList", {
                        goodsId : goods._id,    //商品id
@@ -550,3 +550,101 @@ module.exports.slideShowPicList = function(req,res){
         }
     })
 }
+
+
+//获取商品大列表接口
+module.exports.getGoodsTypeList = function(req,res){
+    var obj = JSON.parse(req.query.obj) || {};
+    db.find("goodsTypeList", obj
+        ,function(err,goodsTypeList){
+            if(err){
+                res.json({
+                    ok: -1,
+                    msg: message.URL_ERROR
+                })
+            }else{
+                res.json({
+                    ok: 1,
+                    msg: message.GET,
+                    goodsTypeList
+                })
+            }
+        })
+}
+//获取商品小列表接口
+module.exports.getSmallGoodsTypeList = function(req,res){
+    var obj = req.query.obj || {};
+    db.find("smallGoodsTypeList", obj
+        ,function(err,smallGoodsTypeList){
+            if(err){
+                res.json({
+                    ok: -1,
+                    msg: message.URL_ERROR
+                })
+            }else{
+                res.json({
+                    ok: 1,
+                    msg: message.GET,
+                    smallGoodsTypeList
+                })
+            }
+        })
+}
+//获取商品接口
+module.exports.getGoodsLists = function(req,res){
+    var obj = JSON.parse(req.query.obj) || {};
+    db.find("goodsList", obj
+        ,function(err,goodsList){
+            if(err){
+                res.json({
+                    ok: -1,
+                    msg: message.URL_ERROR
+                })
+            }else{
+                res.json({
+                    ok: 1,
+                    msg: message.GET,
+                    goodsList
+                })
+            }
+        })
+}
+//详情页轮播图
+module.exports.getGoodsDetailsPicList = function(req,res){
+    var obj = JSON.parse(req.query.obj) || {};
+    db.find("goodsDetailsPic", obj
+        ,function(err,goodsDetailsPicList){
+            if(err){
+                res.json({
+                    ok: -1,
+                    msg: message.URL_ERROR
+                })
+            }else{
+                res.json({
+                    ok: 1,
+                    msg: message.GET,
+                    goodsDetailsPicList
+                })
+            }
+        })
+}
+//详情页详细图
+module.exports.getSlideShowPicList = function(req,res){
+    var obj = JSON.parse(req.query.obj) || {};
+    db.find("slideShowPicList", obj
+        ,function(err,slideShowPicList){
+            if(err){
+                res.json({
+                    ok: -1,
+                    msg: message.URL_ERROR
+                })
+            }else{
+                res.json({
+                    ok: 1,
+                    msg: message.GET,
+                    slideShowPicList
+                })
+            }
+        })
+}
+//*******************************************************************

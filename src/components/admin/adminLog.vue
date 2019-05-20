@@ -42,14 +42,30 @@
         <pageInfo actionsName="getAdminLog" class="pageInfo"></pageInfo>
     </div>
 </template>
-
 <script>
+    import axios from 'axios'
     export default {
         name: "adminLog",
         //vue加载完毕的方法
         mounted(){
             this.$store.commit("SET_INIT")
             this.$store.dispatch("getAdminLog");
+            this.smallGoodsTypeList();
+        },
+        methods : {
+            smallGoodsTypeList(){
+                axios.get("getSmallGoodsTypeList",{
+                    params : {
+                        obj:{
+                            whereObj : {
+                                orderBy : "轮播图"
+                            }
+                        }
+                    }
+                }).then(data=>{
+                    console.log(data,123)
+                })
+            }
         }
     }
 </script>
